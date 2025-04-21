@@ -1,0 +1,80 @@
+{
+  "name": "afwt-clean-ecommerce-mngr",
+  "version": "1.0.0",
+  "description": "Microservice in nodejs with express, it's main goal is to manage all the authentication, validations, DB Integrations and CRUD operations for a basic and simple e-commerce",
+  "main": "index.js",
+  "scripts": {
+    "copy:assets": "[ -d assets ] && cp -r assets build/assets || echo 'Skipping copy: assets does not exist'",
+    "copy:scripts": "[ -d scripts ] && cp -r scripts build/scripts || echo 'Skipping copy: scripts does not exist'",
+    "copy:secrets": "[ -d secrets ] && cp -r scripts build/secrets || echo 'Skipping copy: secrets does not exist'",
+    "copy:prisma": "[ -d prisma ] && cp -r scripts build/prisma || echo 'Skipping copy: prisma does not exist'",
+    "copy:all": "npm run copy:assets && npm run copy:scripts && npm run copy:secrets && npm run copy:prisma",
+    "build": "tsc && npm run copy:all",
+    "build:dev": "tsc",
+    "build:lab": "tsc",
+    "build:prod": "tsc",
+    "start": "node ./build/src/main.js",
+    "start:dev": "npm run build && export DEBUG=afwt-clean-ecommerce-mngr:* && npm start",
+    "dev": "nodemon --watch src -e ts,js --exec npm run start:dev",
+    "test:file": "export $(cat test/.env-test | xargs) && mocha --timeout 10000 --require ts-node/register",
+    "test:only": "npm run test:file -- 'test/**/*.spec.ts'",
+    "test": "npm run lint && npm run test:only",
+    "coverage": "export $(cat test/.env-test | xargs) && nyc mocha --timeout 10000 --require ts-node/register 'test/**/*.spec.ts'",
+    "coverage:report": "nyc report --reporter=lcov --reporter=text",
+    "coverage:web": "npm run coverage && serve coverage/",
+    "lint": "eslint 'src/**/*.ts'",
+    "lint:fix": "eslint --fix 'src/**/*.ts'",
+    "format": "prettier --write 'src/**/*.ts'",
+    "check": "npm run lint && npm run build && npm run test",
+    "debug": "DEBUG=* node ./build/src/main.js",
+    "clean": "rm -rf .nyc_output coverage build .scannerwork performance/.clinic-doctor"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndresFWilT/afwt-clean-ecommerce-mngr.git"
+  },
+  "keywords": [
+    "Backend",
+    "Express",
+    "Node",
+    "Manager",
+    "Microservice",
+    "CRUD",
+    "API",
+    "Authentication"
+  ],
+  "author": "AndresFWilT",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AndresFWilT/afwt-clean-ecommerce-mngr/issues"
+  },
+  "homepage": "https://github.com/AndresFWilT/afwt-clean-ecommerce-mngr#readme",
+  "dependencies": {
+    "@prisma/client": "^6.6.0",
+    "@types/express": "^5.0.1",
+    "@types/express-actuator": "^1.8.3",
+    "bcrypt": "^5.1.1",
+    "express": "^5.1.0",
+    "express-actuator": "^1.8.4",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "pg": "^8.14.1",
+    "typescript": "^5.8.3",
+    "uuid": "^11.1.0",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/morgan": "^1.9.9",
+    "@types/pg": "^8.11.13",
+    "@typescript-eslint/eslint-plugin": "^8.30.1",
+    "@typescript-eslint/parser": "^8.30.1",
+    "eslint": "^9.25.0",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-prettier": "^5.2.6",
+    "nodemon": "^3.1.9",
+    "prettier": "^3.5.3",
+    "prisma": "^6.6.0"
+  }
+}

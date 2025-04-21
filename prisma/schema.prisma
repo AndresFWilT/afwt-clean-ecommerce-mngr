@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  id          Int        @id @default(autoincrement())
+  name        String     @unique @db.VarChar(50)
+  description String?
+  createdAt   DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
+  userRoles   UserRole[]
+
+  @@map("roles")
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  email     String     @unique @db.VarChar(255)
+  password  String     @db.VarChar(255)
+  name      String     @db.VarChar(255)
+  createdAt DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime   @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  carts     Cart[]
+  purchases Purchase[]
+  userRoles UserRole[]
+
+  @@map("users")
+}
+
+model UserRole {
+  userId     Int      @map("user_id")
+  roleId     Int      @map("role_id")
+  assignedAt DateTime @default(now()) @map("assigned_at") @db.Timestamptz(6)
+  role       Role     @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "user_roles_role_fk")
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "user_roles_user_fk")
+
+  @@id([userId, roleId])
+  @@map("user_roles")
+}
+
+model Product {
+  id            Int            @id @default(autoincrement())
+  name          String         @db.VarChar(255)
+  description   String?
+  price         Decimal        @db.Decimal(10, 2)
+  stock         Int
+  createdAt     DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime       @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  cartItems     CartItem[]
+  purchaseItems PurchaseItem[]
+
+  @@map("products")
+}
+
+model Cart {
+  id        Int        @id @default(autoincrement())
+  userId    Int        @map("user_id")
+  createdAt DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime   @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  items     CartItem[]
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "carts_user_fk")
+
+  @@map("carts")
+}
+
+model CartItem {
+  id        Int      @id @default(autoincrement())
+  cartId    Int      @map("cart_id")
+  productId Int      @map("product_id")
+  quantity  Int
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "cart_items_cart_fk")
+  product   Product  @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "cart_items_product_fk")
+
+  @@unique([cartId, productId])
+  @@map("cart_items")
+}
+
+model Purchase {
+  id          Int            @id @default(autoincrement())
+  userId      Int            @map("user_id")
+  totalAmount Decimal        @map("total_amount") @db.Decimal(12, 2)
+  createdAt   DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  items       PurchaseItem[]
+  user        User           @relation(fields: [userId], references: [id], onUpdate: NoAction, map: "purchases_user_fk")
+
+  @@map("purchases")
+}
+
+model PurchaseItem {
+  id         Int      @id @default(autoincrement())
+  purchaseId Int      @map("purchase_id")
+  productId  Int      @map("product_id")
+  quantity   Int
+  unitPrice  Decimal  @map("unit_price") @db.Decimal(10, 2)
+  totalPrice Decimal? @default(dbgenerated("((quantity)::numeric * unit_price)")) @map("total_price") @db.Decimal(14, 2)
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt  DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  product    Product  @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "purchase_items_product_fk")
+  purchase   Purchase @relation(fields: [purchaseId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "purchase_items_purchase_fk")
+
+  @@unique([purchaseId, productId])
+  @@map("purchase_items")
+}
