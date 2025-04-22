@@ -2,6 +2,7 @@ const serverConfig = {
     API_BASE_PATH: process.env.API_BASE_PATH ?? '/api/v1',
     DEBUG: process.env.DEBUG ?? 'afwt-ecommerce:*',
     PORT: process.env.PORT ?? '9080',
+    ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS ?? 'domain1,domain2',
 };
 
 const postgresConfig = {

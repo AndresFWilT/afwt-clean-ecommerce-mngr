@@ -50,7 +50,7 @@ This project follows the Hexagonal Architecture (Ports and Adapters) pattern wit
 
 ## Security
 
-I choose Asymmetric RS256 compared to HS256 because:
+This project uses asymmetric encryption with RS256 for JWT authentication, which is a more secure and scalable alternative to symmetric encryption methods like HS256.
 
 | Feature | HS256 (current) | RS256 (recommended) |
 | ------- | --------------- | -------------------- |
@@ -61,11 +61,36 @@ I choose Asymmetric RS256 compared to HS256 because:
 | Role-based security | ✅ (can embed claims) | ✅ (standard practice) |
 | Best practice in prod | ⚠️ Not ideal | ✅ Preferred in OAuth, Auth0, AWS Cognito |
 
-### Commands
+RS256 allows the server to sign tokens using the private key, while clients or services can verify tokens using the public key — even if they don’t know the private key. This separation provides better security, auditing, and microservices scalability.
+
+### Generating Keys
 ```shell
 openssl genrsa -out private.pem 2048
 openssl rsa -in private.pem -pubout -out public.pem
 ```
+
+- private.pem → used by the backend to sign JWTs.
+- public.pem → used to verify the JWTs (can be shared with other services).
+
+###  Where to Place the Keys
+
+After generating the keys, place them inside the ./secrets/ directory at the root of the project:
+
+```vbnet
+├── secrets
+│   ├── private.pem   <-- used internally by backend
+│   └── public.pem    <-- can be exposed to services for verification
+```
+
+Make sure not to commit private.pem to version control. Add it to your .gitignore.
+
+### CORS Security
+The application supports dynamic CORS validation using an environment variable ALLOWED_ORIGINS.
+
+```env
+ALLOWED_ORIGINS=https://frontend.example.com,https://admin.example.com
+```
+This is enforced via middleware, allowing only trusted origins to receive the Access-Control-Allow-Origin header dynamically based on the Origin header in the request, can be implemented via AWS secrets manager too.
 
 ---
 
