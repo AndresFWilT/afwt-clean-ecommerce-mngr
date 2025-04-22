@@ -2,16 +2,16 @@ import { Router } from 'express';
 
 import { AuthenticationController } from '../../controller/user/authentication/auth-controller';
 import { JWTAuthenticatorAdapter } from "../../../infrastructure/adapter/jwt/authentication";
-import { LoginUserService } from "../../../usecase/user/authentication/LoginUserService";
+import { UserLogin } from "../../../usecase/user/authentication/user-login";
 import { PrismaUserFetcher } from "../../../infrastructure/persistence/prisma/user/user-fetcher";
 import { PrismaUserCreator } from '../../../infrastructure/persistence/prisma/user/user-creator';
-import { SignUpUserService } from '../../../usecase/user/signup/SignUpUserService';
+import { UserSignUp } from '../../../usecase/user/signup/user-sign-up';
 import { SignUpUserController } from '../../controller/user/signup/sign-up-controller';
 import { validateRequestBody, validateRequestHeaders } from '../../middleware/validate-param';
 
 const userRouter = Router();
 
-const loginUserService = new LoginUserService(
+const loginUserService = new UserLogin(
     new PrismaUserFetcher(),
     new JWTAuthenticatorAdapter()
 );
@@ -23,7 +23,7 @@ userRouter.use(
     authController.getRouter()
 );
 
-const registerUserService = new SignUpUserService(new PrismaUserCreator());
+const registerUserService = new UserSignUp(new PrismaUserCreator());
 const signUpController = new SignUpUserController(registerUserService);
 
 userRouter.use(

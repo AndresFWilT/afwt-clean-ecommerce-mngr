@@ -6,6 +6,7 @@ import env from '../../config/env';
 import { ICustomRequest } from "../../infrastructure/adapter/http/header";
 import { ResponseFactory } from "../../infrastructure/adapter/http/response-factory";
 import { validateUUID } from "../../util/validation/uuid";
+import {IClaims} from "../../domain/dto/user/auth-claim";
 
 const publicKey = fs.readFileSync(env.authConfig.JWT_PUBLIC_KEY);
 
@@ -21,7 +22,7 @@ export function roleGuardMiddleware(allowedRoles: string[]) {
             }
 
             const token = authHeader.split(' ')[1];
-            const decoded = jwt.verify(token, publicKey, { algorithms: ['RS256'] }) as { roles: string[] };
+            const decoded = jwt.verify(token, publicKey, { algorithms: ['RS256'] }) as IClaims;
 
             const userRoles = decoded.roles;
             const hasAccess = userRoles.some(role => allowedRoles.includes(role));
@@ -31,7 +32,7 @@ export function roleGuardMiddleware(allowedRoles: string[]) {
                 return;
             }
 
-            (req as any).user = decoded;
+            (req as ICustomRequest).auth = decoded;
             next();
         } catch (error: unknown) {
             const err = error as Error;

@@ -7,7 +7,7 @@ import { ILoginUser } from "../../../domain/dto/user/login-user";
 import { IUserFetcher } from "../../../domain/port/user/authentication/user-fetcher";
 import { User } from "../../../domain/entity/user";
 
-export class LoginUserService implements ILoginExecutor {
+export class UserLogin implements ILoginExecutor {
     constructor(
         private readonly userFetcher: IUserFetcher,
         private readonly authenticator: IAuthenticatorPort

@@ -9,6 +9,10 @@ export interface IUser {
 export class User {
     constructor(private readonly data: IUser) {}
 
+    get id(): string {
+        return this.data.id;
+    }
+
     get email() {
         return this.data.email;
     }
