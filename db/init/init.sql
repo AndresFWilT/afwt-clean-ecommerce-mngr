@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS products (
     stock        INTEGER NOT NULL CHECK (stock >= 0),
     created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at   TIMESTAMPTZ NOT NULL DEFAULT NOW()
-    );
+);
 
 CREATE TRIGGER trg_products_set_updated_at
     BEFORE UPDATE ON products FOR EACH ROW

@@ -5,7 +5,7 @@ export interface IBaseResponse {
 
 export interface ISuccessResponse<T> extends IBaseResponse {
     description: string;
-    data: T;
+    data: T | {};
 }
 
 export interface IErrorResponse extends IBaseResponse {

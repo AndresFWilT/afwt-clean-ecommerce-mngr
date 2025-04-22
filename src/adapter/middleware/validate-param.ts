@@ -10,6 +10,9 @@ type ParamProvider = (req: ICustomRequest) => string[];
 const validateParams =
     (paramProvider: ParamProvider, paramType: IParamType) =>
         async (req: IRequest, _res: Response, next: NextFunction) => {
+            if (paramType === 'body' && ['GET', 'DELETE', 'HEAD', 'OPTIONS'].includes(req.method)) {
+                return next();
+            }
             const UUID = validateUUID(req as ICustomRequest);
             const params = paramProvider(req as ICustomRequest);
 

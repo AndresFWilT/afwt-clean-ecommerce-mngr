@@ -4,9 +4,10 @@ import morgan from 'morgan';
 import path from 'path';
 
 import { logger } from "./logger";
-import env from './env';
-import userRouter from "../adapter/route/user/user-route-configuration";
 import {sendErrorResponse} from "../infrastructure/adapter/http/error-handler";
+import env from './env';
+import productRouter from "../adapter/route/product/product-route-configuration";
+import userRouter from "../adapter/route/user/user-route-configuration";
 
 export class ServerConfiguration {
     private readonly _app: Express;
@@ -67,6 +68,7 @@ export class ServerConfiguration {
         logger.info('N/A', 'api path: ' + this._apiBasePath);
 
         this._app.use(this._apiBasePath, userRouter);
+        this._app.use(this._apiBasePath, productRouter);
 
         this._app.use(sendErrorResponse)
     }

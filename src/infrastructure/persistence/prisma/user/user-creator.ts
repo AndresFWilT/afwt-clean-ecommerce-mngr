@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-import { ICustomerCreator } from "../../../domain/port/user/signup/user-creator";
+import { ICustomerCreator } from "../../../../domain/port/user/signup/user-creator";
 
 const prisma = new PrismaClient();
 

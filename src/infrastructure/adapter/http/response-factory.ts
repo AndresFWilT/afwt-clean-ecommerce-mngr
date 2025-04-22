@@ -1,12 +1,12 @@
 import { IErrorResponse, ISuccessResponse } from './response';
 
 export class ResponseFactory {
-    static success<T>(uuid: string, description: string, data: T): ISuccessResponse<T> {
+    static success<T>(uuid: string, description: string, data: T | null | undefined): ISuccessResponse<T> {
         return {
             uuid,
             timestamp: new Date().toISOString(),
             description,
-            data,
+            data: data ?? {},
         };
     }
 
