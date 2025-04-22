@@ -113,7 +113,7 @@ curl --location 'http://localhost:9080/api/v1/authentication/login' \
 curl --request POST http://localhost:9080/api/v1/products \
 --header "Authorization: Bearer <AUTH_TOKEN>" \
 --header "Content-Type: application/json" \
---header "x-request-id: some-uuid-v4" \
+--header "X-RqUID: some-uuid-v4" \
 --data '{
   "name": "Laptop Pro 2025",
   "description": "Powerful performance for devs",
@@ -125,13 +125,13 @@ curl --request POST http://localhost:9080/api/v1/products \
 **Get All Products**
 ```bash
 curl --request GET "http://localhost:9080/api/v1/products?page=1&limit=10" \
---header "x-request-id: some-uuid-v4"
+--header "X-RqUID: some-uuid-v4"
 ```
 
 **Get Product by ID**
 ```bash
 curl --request GET http://localhost:9080/api/v1/products/1 \
---header "x-request-id: some-uuid-v4"
+--header "X-RqUID: some-uuid-v4"
 ```
 
 **Update Product**
@@ -139,7 +139,7 @@ curl --request GET http://localhost:9080/api/v1/products/1 \
 curl --request PUT http://localhost:9080/api/v1/products/1 \
 --header "Authorization: Bearer <AUTH_TOKEN>" \
 --header "Content-Type: application/json" \
---header "x-request-id: some-uuid-v4" \
+--header "X-RqUID: some-uuid-v4" \
 --data '{
   "name": "Laptop Pro 2025 - Updated",
   "description": "Updated spec version",
@@ -152,7 +152,7 @@ curl --request PUT http://localhost:9080/api/v1/products/1 \
 ```bash
 curl --request DELETE http://localhost:9080/api/v1/products/1 \
 --header "Authorization: Bearer <AUTH_TOKEN>" \
---header "x-request-id: some-uuid-v4"
+--header "X-RqUID: some-uuid-v4"
 ```
 
 ### Cart
