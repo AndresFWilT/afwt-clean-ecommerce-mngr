@@ -1,5 +1,53 @@
 # afwt-clean-ecommerce-mngr
 
+## Table of Contents
+- [Description](#description)
+- [Architecture Overview](#architecture-overview)
+- [Security](#security)
+- [API Endpoints](#api-endpoints)
+    - [Authentication](#authentication)
+    - [Products](#products)
+    - [Cart](#cart)
+    - [Purchases](#purchases)
+
+## Description
+
+Develop a basic e-commerce platform that allows users to browse products, add them to a shopping cart, and complete purchases.
+
+### Technical Requirements
+- Implement an API for user authentication (JWT, OAuth, or another secure method).
+- Create a CRUD module to manage products (name, description, price, stock).
+- Develop a shopping cart module.
+- Create an endpoint to access a user's purchase history.
+
+## Architecture Overview
+
+This project follows the Hexagonal Architecture (Ports and Adapters) pattern with a clear separation between layers:
+
+```shell
+├── prisma/                         # Prisma schema definition
+├── secrets/                       # JWT private/public RSA keys
+├── src/
+│   ├── adapter/                   # HTTP layer (controllers, routes, middlewares)
+│   │   ├── controller/            # REST controllers by domain
+│   │   ├── middleware/            # Role-based auth, validation
+│   │   └── route/                 # Route configuration per domain
+│   ├── config/                    # Environment configuration and logging
+│   ├── domain/                    # Core business logic (Entities, DTOs, Ports)
+│   │   ├── dto/                   # Data Transfer Objects for all layers
+│   │   ├── entity/                # Business entities with getters
+│   │   └── port/                  # Inbound and outbound ports (interfaces)
+│   ├── infrastructure/
+│   │   ├── adapter/http/          # Response factory, error handler, JWT adapter
+│   │   ├── bootstrap/             # Server runner
+│   │   └── persistence/prisma/    # Prisma adapters implementing out ports
+│   ├── usecase/                   # Application services implementing in ports
+│   └── util/                      # UUID validation and reusable helpers
+├── main.ts                        # App entrypoint
+└── tsconfig.json                  # TypeScript configuration
+
+```
+
 ## Security
 
 I choose Asymmetric RS256 compared to HS256 because:
@@ -14,8 +62,142 @@ I choose Asymmetric RS256 compared to HS256 because:
 | Best practice in prod | ⚠️ Not ideal | ✅ Preferred in OAuth, Auth0, AWS Cognito |
 
 ### Commands
-
 ```shell
 openssl genrsa -out private.pem 2048
 openssl rsa -in private.pem -pubout -out public.pem
 ```
+
+---
+
+## API Endpoints
+
+### Authentication
+```bash
+curl --location 'http://localhost:9080/api/v1/authentication/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email": "marialopez@gmail.com",
+    "password": "654321"
+}'
+```
+
+### Products
+
+**Create Product**
+```bash
+curl --request POST http://localhost:9080/api/v1/products \
+--header "Authorization: Bearer <AUTH_TOKEN>" \
+--header "Content-Type: application/json" \
+--header "x-request-id: some-uuid-v4" \
+--data '{
+  "name": "Laptop Pro 2025",
+  "description": "Powerful performance for devs",
+  "price": 2599.99,
+  "stock": 50
+}'
+```
+
+**Get All Products**
+```bash
+curl --request GET "http://localhost:9080/api/v1/products?page=1&limit=10" \
+--header "x-request-id: some-uuid-v4"
+```
+
+**Get Product by ID**
+```bash
+curl --request GET http://localhost:9080/api/v1/products/1 \
+--header "x-request-id: some-uuid-v4"
+```
+
+**Update Product**
+```bash
+curl --request PUT http://localhost:9080/api/v1/products/1 \
+--header "Authorization: Bearer <AUTH_TOKEN>" \
+--header "Content-Type: application/json" \
+--header "x-request-id: some-uuid-v4" \
+--data '{
+  "name": "Laptop Pro 2025 - Updated",
+  "description": "Updated spec version",
+  "price": 2699.99,
+  "stock": 45
+}'
+```
+
+**Delete Product**
+```bash
+curl --request DELETE http://localhost:9080/api/v1/products/1 \
+--header "Authorization: Bearer <AUTH_TOKEN>" \
+--header "x-request-id: some-uuid-v4"
+```
+
+### Cart
+
+**Add Item to Cart**
+```bash
+curl -X POST http://localhost:9080/api/v1/cart/items \
+  -H "Authorization: Bearer <AUTH_TOKEN>" \
+  -H "Content-Type: application/json" \
+  -H "X-RqUID: test-uuid" \
+  -d '{
+        "productId": 1,
+        "quantity": 2
+      }'
+```
+
+**Update Item Quantity**
+```bash
+curl -X PUT http://localhost:9080/api/v1/cart/items/1 \
+  -H "Authorization: Bearer <AUTH_TOKEN>" \
+  -H "Content-Type: application/json" \
+  -H "X-RqUID: test-uuid" \
+  -d '{
+        "quantity": 3
+      }'
+```
+
+**Remove Item from Cart**
+```bash
+curl -X DELETE http://localhost:9080/api/v1/cart/items/1 \
+  -H "Authorization: Bearer <AUTH_TOKEN>" \
+  -H "X-RqUID: test-uuid"
+```
+
+**Clear Cart**
+```bash
+curl -X DELETE http://localhost:9080/api/v1/cart \
+  -H "Authorization: Bearer <AUTH_TOKEN>" \
+  -H "X-RqUID: test-uuid"
+```
+
+**Get Cart by User**
+```bash
+curl --request GET http://localhost:9080/api/v1/cart \
+--header "Authorization: Bearer <AUTH_TOKEN>" \
+--header "X-RqUID: some-uuid-v4"
+```
+
+### Purchases
+
+**Place Purchase**
+```bash
+curl --location 'http://localhost:9080/api/v1/purchases' \
+--request POST \
+--header 'Authorization: Bearer <AUTH_TOKEN>' \
+--header 'X-RqUID: <UNIQUE-REQUEST-ID>' \
+--header 'Content-Type: application/json'
+```
+
+**Get Purchase History**
+```bash
+curl --location 'http://localhost:9080/api/v1/purchases' \
+--request GET \
+--header 'Authorization: Bearer <AUTH_TOKEN>' \
+--header 'X-RqUID: <UNIQUE-REQUEST-ID>'
+```
+
+**Get Purchase by ID**
+```bash
+curl --location 'http://localhost:9080/api/v1/purchases/1' \
+--request GET \
+--header 'Authorization: Bearer <AUTH_TOKEN>' \
+--header 'X-RqUID: <UNIQUE-REQUEST-ID>'
