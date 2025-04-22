@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 import { IProduct } from "../../../../domain/dto/product/product-handling";
 import { IProductFetcherAll } from "../../../../domain/port/product/out/product-fetcher";
-import {AbstractProductFetcher} from "./abstract-product-fetcher";
+import { AbstractProductFetcher } from "./abstract-product-fetcher";
 
 const prisma = new PrismaClient();
 
@@ -21,6 +21,7 @@ export class PrismaProductFetcher extends AbstractProductFetcher implements IPro
             description: p.description ?? '',
             price: Number(p.price),
             stock: p.stock,
+            imageUrl: p.imageUrl ?? '',
             createdAt: p.createdAt,
             updatedAt: p.updatedAt,
         }));

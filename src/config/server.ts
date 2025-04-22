@@ -50,7 +50,7 @@ export class ServerConfiguration {
     }
 
     private setupCorsHeaders(): void {
-        const allowedOrigins = (process.env.ALLOWED_ORIGINS ?? '')
+        const allowedOrigins = (env.serverConfig.ALLOWED_ORIGINS)
             .split(',')
             .map(origin => origin.trim());
 
@@ -58,16 +58,22 @@ export class ServerConfiguration {
             const origin = req.headers.origin;
 
             if (origin && allowedOrigins.includes(origin)) {
-                res.header('Access-Control-Allow-Origin', origin);
+                res.setHeader('Access-Control-Allow-Origin', origin);
             }
 
-            res.header('Access-Control-Allow-Headers', '*');
-            res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-            res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+            res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-RqUID');
+            res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+            if (req.method === 'OPTIONS') {
+                res.sendStatus(200);
+                return;
+            }
+
             next();
         });
-    }
 
+    }
 
     private setupRoutes(): void {
         this._app.use(

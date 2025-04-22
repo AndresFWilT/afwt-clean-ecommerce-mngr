@@ -16,6 +16,9 @@ export abstract class AbstractProductFetcher implements IProductFetcherById {
             description: p.description ?? '',
             price: Number(p.price),
             stock: p.stock,
+            imageUrl: p.imageUrl ?? '',
+            createdAt: p.createdAt,
+            updatedAt: p.updatedAt,
         };
     }
 }

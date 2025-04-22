@@ -15,7 +15,6 @@ export function roleGuardMiddleware(allowedRoles: string[]) {
         try {
             const authHeader = req.headers.authorization;
 
-
             if (!authHeader || !authHeader.startsWith('Bearer ')) {
                 res.status(401).json({ message: 'Missing or invalid Authorization header' });
                 return;
@@ -23,7 +22,6 @@ export function roleGuardMiddleware(allowedRoles: string[]) {
 
             const token = authHeader.split(' ')[1];
             const decoded = jwt.verify(token, publicKey, { algorithms: ['RS256'] }) as IClaims;
-
             const userRoles = decoded.roles;
             const hasAccess = userRoles.some(role => allowedRoles.includes(role));
 
