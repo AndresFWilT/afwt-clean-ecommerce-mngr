@@ -1,7 +1,7 @@
 import { AbstractProductFetcher } from "./abstract-product-fetcher";
 import { CustomError } from "../../../exception/custom-error";
 import { IProduct } from "../../../../domain/dto/product/product-handling";
-import { IProductUpdater } from "../../../../domain/port/product/product-updater";
+import { IProductUpdater } from "../../../../domain/port/product/out/product-updater";
 
 export class PrismaProductUpdater extends AbstractProductFetcher implements IProductUpdater {
     async update(id: number, data: IProduct): Promise<void> {

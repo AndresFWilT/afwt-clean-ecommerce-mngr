@@ -1,5 +1,5 @@
-import { IProductDeleter } from "../../domain/port/product/product-deleter";
-import {IProductRemover} from "../../domain/port/product/product-remover";
+import { IProductDeleter } from "../../domain/port/product/out/product-deleter";
+import {IProductRemover} from "../../domain/port/product/in/product-remover";
 
 export class DeleteProductService implements IProductRemover {
     constructor(private readonly deleter: IProductDeleter) {}

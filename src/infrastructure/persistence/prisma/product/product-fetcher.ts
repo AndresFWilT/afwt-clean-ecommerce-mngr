@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
 import { IProduct } from "../../../../domain/dto/product/product-handling";
-import { IProductFetcherAll } from "../../../../domain/port/product/product-fetcher";
+import { IProductFetcherAll } from "../../../../domain/port/product/out/product-fetcher";
 import {AbstractProductFetcher} from "./abstract-product-fetcher";
 
 const prisma = new PrismaClient();

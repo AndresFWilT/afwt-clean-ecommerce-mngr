@@ -1,6 +1,6 @@
 import { IProduct } from "../../domain/dto/product/product-handling";
-import { IProductCreator } from "../../domain/port/product/product-creator";
-import { IProductSaver } from "../../domain/port/product/product-saver";
+import { IProductCreator } from "../../domain/port/product/in/product-creator";
+import { IProductSaver } from "../../domain/port/product/out/product-saver";
 
 export class CreateProductService implements IProductCreator {
     constructor(private readonly productSaver: IProductSaver) {}

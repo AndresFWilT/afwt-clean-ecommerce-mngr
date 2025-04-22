@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt';
 
-import { ISignUpExecutor } from '../../../domain/port/user/signup/signup-executor';
+import { ISignUpExecutor } from '../../../domain/port/user/signup/in/signup-executor';
 import { ISignUpUser } from '../../../domain/dto/user/signup-user';
-import { ICustomerCreator } from "../../../domain/port/user/signup/user-creator";
+import { ICustomerCreator } from "../../../domain/port/user/signup/out/user-creator";
 
 export class UserSignUp implements ISignUpExecutor {
     constructor(private readonly persistence: ICustomerCreator) {}

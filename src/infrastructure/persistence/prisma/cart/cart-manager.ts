@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { ICartManager } from '../../../../domain/port/cart/cart-manager';
+import { ICartManager } from '../../../../domain/port/cart/out/cart-manager';
 import { ICartItem, ICart } from '../../../../domain/dto/cart/cart-handling';
 import { CustomError } from '../../../exception/custom-error';
 

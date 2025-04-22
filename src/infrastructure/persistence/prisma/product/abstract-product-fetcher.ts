@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
 import { IProduct } from "../../../../domain/dto/product/product-handling";
-import { IProductFetcherById } from "../../../../domain/port/product/product-fetcher-id";
+import { IProductFetcherById } from "../../../../domain/port/product/out/product-fetcher-id";
 
 export abstract class AbstractProductFetcher implements IProductFetcherById {
     protected prisma = new PrismaClient();

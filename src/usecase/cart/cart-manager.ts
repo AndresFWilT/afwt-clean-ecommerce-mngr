@@ -1,9 +1,9 @@
 import { CustomError } from '../../infrastructure/exception/custom-error';
 import { ICart } from '../../domain/dto/cart/cart-handling';
-import { ICartHandler } from '../../domain/port/cart/cart-handler';
-import { ICartManager } from '../../domain/port/cart/cart-manager';
-import { IProductFetcherById } from "../../domain/port/product/product-fetcher-id";
-import { IUserFetcher } from '../../domain/port/user/authentication/user-fetcher';
+import { ICartHandler } from '../../domain/port/cart/in/cart-handler';
+import { ICartManager } from '../../domain/port/cart/out/cart-manager';
+import { IProductFetcherById } from "../../domain/port/product/out/product-fetcher-id";
+import { IUserFetcher } from '../../domain/port/user/authentication/out/user-fetcher';
 import { IUser } from "../../domain/entity/user";
 
 export class CartManagerService implements ICartHandler {

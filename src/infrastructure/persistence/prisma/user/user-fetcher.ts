@@ -1,6 +1,6 @@
 import {Prisma, PrismaClient} from '@prisma/client';
 
-import { IUserFetcher } from '../../../../domain/port/user/authentication/user-fetcher';
+import { IUserFetcher } from '../../../../domain/port/user/authentication/out/user-fetcher';
 import { User as DomainUser } from '../../../../domain/entity/user';
 
 const prisma = new PrismaClient();

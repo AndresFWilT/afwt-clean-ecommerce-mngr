@@ -1,7 +1,7 @@
 import { Router, Response, NextFunction } from 'express';
 
 import { ICartItem } from "../../../domain/dto/cart/cart-handling";
-import { ICartHandler } from "../../../domain/port/cart/cart-handler";
+import { ICartHandler } from "../../../domain/port/cart/in/cart-handler";
 import { ICustomRequest } from '../../../infrastructure/adapter/http/header';
 import { IClaims } from '../../../domain/dto/user/auth-claim';
 import { ResponseFactory } from '../../../infrastructure/adapter/http/response-factory';

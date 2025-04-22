@@ -1,7 +1,7 @@
 import { NextFunction, Response, Router } from 'express';
 
 import { CustomError } from '../../../../infrastructure/exception/custom-error';
-import { ISignUpExecutor } from '../../../../domain/port/user/signup/signup-executor';
+import { ISignUpExecutor } from '../../../../domain/port/user/signup/in/signup-executor';
 import { ISignUpUser } from '../../../../domain/dto/user/signup-user';
 import { IRequest, ICustomRequest } from '../../../../infrastructure/adapter/http/header';
 import { ResponseFactory } from '../../../../infrastructure/adapter/http/response-factory';

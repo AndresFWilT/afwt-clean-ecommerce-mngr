@@ -1,10 +1,10 @@
 import bcrypt from 'bcrypt';
 
-import { IAuthenticatorPort } from "../../../domain/port/user/authentication/authenticator";
+import { IAuthenticatorPort } from "../../../domain/port/user/authentication/out/authenticator";
 import { IClaims } from "../../../domain/dto/user/auth-claim";
-import { ILoginExecutor } from "../../../domain/port/user/authentication/login-executor";
+import { ILoginExecutor } from "../../../domain/port/user/authentication/in/login-executor";
 import { ILoginUser } from "../../../domain/dto/user/login-user";
-import { IUserFetcher } from "../../../domain/port/user/authentication/user-fetcher";
+import { IUserFetcher } from "../../../domain/port/user/authentication/out/user-fetcher";
 import { User } from "../../../domain/entity/user";
 
 export class UserLogin implements ILoginExecutor {

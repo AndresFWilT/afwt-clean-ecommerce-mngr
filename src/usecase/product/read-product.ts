@@ -1,8 +1,8 @@
 import { CustomError } from "../../infrastructure/exception/custom-error";
 import { IProduct } from "../../domain/dto/product/product-handling";
-import { IProductFetcherAll } from "../../domain/port/product/product-fetcher";
-import { IProductFetcherById } from "../../domain/port/product/product-fetcher-id";
-import { IProductReader } from "../../domain/port/product/product-reader";
+import { IProductFetcherAll } from "../../domain/port/product/out/product-fetcher";
+import { IProductFetcherById } from "../../domain/port/product/out/product-fetcher-id";
+import { IProductReader } from "../../domain/port/product/in/product-reader";
 
 export interface IProductFetcher extends IProductFetcherAll, IProductFetcherById {}
 

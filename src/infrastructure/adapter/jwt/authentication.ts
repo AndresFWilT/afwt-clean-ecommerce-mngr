@@ -1,7 +1,7 @@
 import fs from 'fs';
 import jwt from 'jsonwebtoken';
 
-import { IAuthenticatorPort } from '../../../domain/port/user/authentication/authenticator';
+import { IAuthenticatorPort } from '../../../domain/port/user/authentication/out/authenticator';
 import { IClaims } from '../../../domain/dto/user/auth-claim';
 import env from '../../../config/env';
 

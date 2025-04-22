@@ -9,6 +9,7 @@ import env from './env';
 import productRouter from "../adapter/route/product/product-route-configuration";
 import userRouter from "../adapter/route/user/user-route-configuration";
 import cartRouter from "../adapter/route/cart/cart-route-configuration";
+import purchaseRouter from "../adapter/route/purchase/purchase-route-configuration";
 
 export class ServerConfiguration {
     private readonly _app: Express;
@@ -71,6 +72,7 @@ export class ServerConfiguration {
         this._app.use(this._apiBasePath, userRouter);
         this._app.use(this._apiBasePath, productRouter);
         this._app.use(this._apiBasePath, cartRouter);
+        this._app.use(this._apiBasePath, purchaseRouter);
 
         this._app.use(sendErrorResponse)
     }

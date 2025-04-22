@@ -2,7 +2,7 @@ import { NextFunction, Response, Router } from 'express';
 
 import { CustomError } from '../../../../infrastructure/exception/custom-error';
 import { ICustomRequest, IRequest  } from '../../../../infrastructure/adapter/http/header';
-import { ILoginExecutor } from '../../../../domain/port/user/authentication/login-executor';
+import { ILoginExecutor } from '../../../../domain/port/user/authentication/in/login-executor';
 import { ILoginUser } from '../../../../domain/dto/user/login-user';
 import { ResponseFactory } from '../../../../infrastructure/adapter/http/response-factory';
 import { validateUUID } from '../../../../util/validation/uuid';

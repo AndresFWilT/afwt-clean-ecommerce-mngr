@@ -2,10 +2,10 @@ import { Router, Response, NextFunction } from 'express';
 
 import { CustomError } from '../../../infrastructure/exception/custom-error';
 import { ICustomRequest, IRequest } from '../../../infrastructure/adapter/http/header';
-import { IProductCreator } from '../../../domain/port/product/product-creator';
-import { IProductReader } from '../../../domain/port/product/product-reader';
-import { IProductModifier } from '../../../domain/port/product/product-modifier';
-import { IProductRemover } from "../../../domain/port/product/product-remover";
+import { IProductCreator } from '../../../domain/port/product/in/product-creator';
+import { IProductReader } from '../../../domain/port/product/in/product-reader';
+import { IProductModifier } from '../../../domain/port/product/in/product-modifier';
+import { IProductRemover } from "../../../domain/port/product/in/product-remover";
 import { ResponseFactory } from '../../../infrastructure/adapter/http/response-factory';
 import { roleGuardMiddleware } from '../../middleware/role-guard';
 import { validateRequestBody, validateRequestHeaders } from "../../middleware/validate-param";

@@ -1,4 +1,4 @@
-import {ICart} from "../../dto/cart/cart-handling";
+import {ICart} from "../../../dto/cart/cart-handling";
 
 export interface ICartHandler {
     getCartByEmail(email: string): Promise<ICart>

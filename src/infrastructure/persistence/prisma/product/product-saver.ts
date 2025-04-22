@@ -1,5 +1,5 @@
 import {PrismaClient} from "@prisma/client";
-import {IProductSaver} from "../../../../domain/port/product/product-saver";
+import {IProductSaver} from "../../../../domain/port/product/out/product-saver";
 import {IProduct} from "../../../../domain/dto/product/product-handling";
 
 const prisma = new PrismaClient();
